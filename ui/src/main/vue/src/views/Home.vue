@@ -2,6 +2,7 @@
 import ToolMenu from '@/components/ToolMenu'
 import FileTree from '@/components/FileTree.vue'
 import ContentTab from '@/components/ContentTab.vue'
+import { NSplit } from 'naive-ui'
 
 const Home = () => {
   return (
@@ -11,12 +12,13 @@ const Home = () => {
           <ToolMenu />
         </div>
         <div class="w-full h-full flex flex-1 min-h-0">
-          <div class="h-full p-1 border-r border-gray-300 w-2/6 min-h-0">
-            <FileTree />
-          </div>
-          <div class="h-full p-1 w-4/6 min-h-0">
-            <ContentTab />
-          </div>
+          <NSplit
+            direction="horizontal"
+            max={0.75}
+            min={0.25}
+            defaultSize={0.25}
+            v-slots={{ 1: () => <FileTree />, 2: () => <ContentTab /> }}
+          />
         </div>
       </div>
     </>

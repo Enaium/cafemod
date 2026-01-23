@@ -9,11 +9,11 @@ const props = defineProps<{ entry: ZipEntry }>()
 const ClassFileContent = () => {
   return (
     <>
-      <NTabs placement="bottom" size="small" class="w-full h-full" tabStyle={{ display: 'none' }}>
-        <NTabPane key="trace-printed" name="Trace Printed" class="w-full h-full">
+      <NTabs placement="bottom" size="small" class="w-full h-full">
+        <NTabPane key="trace-printed" name="Trace Printed" class="w-full h-full min-h-0">
           <TracePrinted entry={props.entry} />
         </NTabPane>
-        <NTabPane key="members" name="Members" class="w-full h-full">
+        <NTabPane key="members" name="Members" class="w-full h-full min-h-0">
           <ClassMembers entry={props.entry} />
         </NTabPane>
       </NTabs>

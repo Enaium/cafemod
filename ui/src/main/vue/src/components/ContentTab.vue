@@ -27,11 +27,11 @@ const ContentTab = () => {
         closable
         onClose={handleClose}
         v-model:value={currentTab.value}
-        class="h-full"
+        class="w-full h-full"
         size="small"
       >
         {contentTab.tab.map((item) => (
-          <NTabPane key={item.path} name={item.name} class="w-full h-full">
+          <NTabPane key={item.path} name={item.name} class="w-full h-full min-h-0">
             <ContentPane entry={item} />
           </NTabPane>
         ))}
