@@ -1,0 +1,21 @@
+[versions]
+koltin = "2.3.0"
+shadow = "9.3.0+"
+asm = "9.9.1"
+coroutines = "1.10.2"
+jackson = "2.20.2"
+saucer = "8739a56"
+
+[libraries]
+asm-tree = { module = "org.ow2.asm:asm-tree", version.ref = "asm" }
+asm-analysis = { module = "org.ow2.asm:asm-analysis", version.ref = "asm" }
+asm-commons = { module = "org.ow2.asm:asm-commons", version.ref = "asm" }
+asm-util = { module = "org.ow2.asm:asm-util", version.ref = "asm" }
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
+jackson = { module = "com.fasterxml.jackson.module:jackson-module-kotlin", version.ref = "jackson" }
+saucer-api = { module = "com.github.saucer.saucer4j:api", version.ref = "saucer" }
+saucer-all = { module = "com.github.saucer.saucer4j:_all", version.ref = "saucer" }
+
+[plugins]
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "koltin" }
+shadow = { id = "com.gradleup.shadow", version.ref = "shadow" }
