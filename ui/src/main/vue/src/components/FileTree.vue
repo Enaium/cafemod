@@ -1,7 +1,6 @@
 <script setup lang="tsx">
 import {
   NIcon,
-  NScrollbar,
   NTree,
   type TreeOption,
   type TreeOverrideNodeClickBehavior,
@@ -87,17 +86,15 @@ const override: TreeOverrideNodeClickBehavior = ({ option }) => {
 const FileTree = () => {
   return (
     <>
-      <NScrollbar xScrollable>
-        <NTree
-          block-line
-          showLine
-          data={tree.value}
-          onLoad={load}
-          nodeProps={nodeProps}
-          overrideDefaultNodeClickBehavior={override}
-          virtualScroll
-        />
-      </NScrollbar>
+      <NTree
+        block-line
+        showLine
+        data={tree.value}
+        onLoad={load}
+        nodeProps={nodeProps}
+        overrideDefaultNodeClickBehavior={override}
+        virtualScroll
+      />
     </>
   )
 }
