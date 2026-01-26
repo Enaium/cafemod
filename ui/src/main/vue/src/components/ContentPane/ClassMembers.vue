@@ -8,7 +8,8 @@ import AccessPublic from '@/assets/icons/AccessPublic.svg?component'
 import AccessPrivate from '@/assets/icons/AccessPrivate.svg?component'
 import AccessProtected from '@/assets/icons/AccessProtected.svg?component'
 import StaticMark from '@/assets/icons/StaticMark.svg?component'
-import { ACC_PRIVATE, ACC_PROTECTED, ACC_PUBLIC, ACC_STATIC } from '@/types/opcodes.tsx'
+import FinalMark from '@/assets/icons/FinalMark.svg?component'
+import { ACC_FINAL, ACC_PRIVATE, ACC_PROTECTED, ACC_PUBLIC, ACC_STATIC } from '@/types/opcodes.tsx'
 
 const props = defineProps<{ entry: ZipEntry }>()
 
@@ -24,33 +25,35 @@ const members = ref<Member[]>([])
 
 const columns: DataTableColumns<Member> = [
   {
-    title: 'Icon',
-    key: 'icon',
+    key: 'type',
     render: (row: Member) => (
       <NIcon size={16}>
-        {row.desc.startsWith('(') ? <Method /> : <Field />}
-        {(row.access & ACC_PUBLIC) !== 0 ? (
-          <AccessPublic />
-        ) : (row.access & ACC_PRIVATE) !== 0 ? (
-          <AccessPrivate />
-        ) : (row.access & ACC_PROTECTED) !== 0 ? (
-          <AccessProtected />
-        ) : (row.access & ACC_STATIC) !== 0 ? (
-          <StaticMark />
-        ) : (
-          <></>
-        )}
+        <div class="absolute">{row.desc.startsWith('(') ? <Method /> : <Field />}</div>
+        <div class="absolute">{(row.access & ACC_STATIC) !== 0 ? <StaticMark /> : <></>}</div>
+        <div class="absolute">{(row.access & ACC_FINAL) !== 0 ? <FinalMark /> : <></>}</div>
       </NIcon>
     ),
-    width: 24,
   },
   {
-    title: 'Name',
+    key: 'access',
+    render: (row: Member) =>
+      (row.access & ACC_PUBLIC) !== 0 ? (
+        <AccessPublic />
+      ) : (row.access & ACC_PRIVATE) !== 0 ? (
+        <AccessPrivate />
+      ) : (row.access & ACC_PROTECTED) !== 0 ? (
+        <AccessProtected />
+      ) : (
+        <></>
+      ),
+  },
+  {
     key: 'name',
+    render: (row: Member) => <div class="text-nowrap">{row.name}</div>,
   },
   {
-    title: 'Descriptor',
     key: 'desc',
+    render: (row: Member) => <div class="text-nowrap">{row.desc}</div>,
   },
 ]
 
@@ -81,14 +84,9 @@ onMounted(() => {
 const ClassMembers = () => {
   return (
     <>
-      <NDataTable
-        columns={columns}
-        data={members.value}
-        bordered={false}
-        size="small"
-        virtualScroll
-        headerHeight={0}
-      />
+      <NScrollbar class="w-full h-full">
+        <NDataTable columns={columns} data={members.value} />
+      </NScrollbar>
     </>
   )
 }

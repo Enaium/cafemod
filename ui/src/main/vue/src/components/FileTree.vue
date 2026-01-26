@@ -69,7 +69,9 @@ const nodeProps = ({ option }: { option: TreeOption }) => {
     onDblclick() {
       if (option.isLeaf) {
         bridge.findEntry(option.key as string, 0).then((r: ZipEntry) => {
-          contentTab.tab.push(r)
+          if (contentTab.tab.find((item: ZipEntry) => item.path === r.path) === undefined) {
+            contentTab.tab.push(r)
+          }
         })
       }
     },
