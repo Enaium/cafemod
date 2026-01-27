@@ -36,9 +36,7 @@ fun ClassReader.cn(): ClassNode {
     return cn
 }
 
-fun AbstractInsnNode.toInstructionNode(): InstructionNode {
-    val type = this.type
-    val opcode = this.opcode
+fun InsnList.toInstructionNodes(): List<InstructionNode> {
 
     val labelIndexes = mutableMapOf<Label, Int>()
 
@@ -48,79 +46,102 @@ fun AbstractInsnNode.toInstructionNode(): InstructionNode {
         }
     }
 
-    return when (this) {
-        is FieldInsnNode -> {
-            FieldInstructionNode(type, opcode, this.owner, this.name, this.desc)
-        }
+    return map { instruction ->
+        val type = instruction.type
+        val opcode = instruction.opcode
 
-        is FrameNode -> {
-            FrameInstructionNode(type, opcode)
-        }
+        return@map when (instruction) {
+            is FieldInsnNode -> {
+                FieldInstructionNode(type, opcode, instruction.owner, instruction.name, instruction.desc)
+            }
 
-        is IincInsnNode -> {
-            IincInstructionNode(type, opcode, this.`var`, this.incr)
-        }
+            is FrameNode -> {
+                FrameInstructionNode(
+                    type, opcode, instruction.type,
+                    instruction.local?.filter {
+                        if (it is Label) {
+                            appendLabelIndex(it)
+                            false
+                        } else {
+                            true
+                        }
+                    } ?: emptyList(),
+                    instruction.stack?.filter {
+                        if (it is Label) {
+                            appendLabelIndex(it)
+                            false
+                        } else {
+                            true
+                        }
+                    } ?: emptyList()
+                )
+            }
 
-        is InsnNode -> {
-            InsnInstructionNode(type, opcode)
-        }
+            is IincInsnNode -> {
+                IincInstructionNode(type, opcode, instruction.`var`, instruction.incr)
+            }
 
-        is IntInsnNode -> {
-            IntInstructionNode(type, opcode, this.operand)
-        }
+            is InsnNode -> {
+                InsnInstructionNode(type, opcode)
+            }
 
-        is InvokeDynamicInsnNode -> {
-            InvokeDynamicInstructionNode(type, opcode, this.name, this.desc)
-        }
+            is IntInsnNode -> {
+                IntInstructionNode(type, opcode, instruction.operand)
+            }
 
-        is JumpInsnNode -> {
-            JumpInstructionNode(type, opcode, appendLabelIndex(this.label.label))
-        }
+            is InvokeDynamicInsnNode -> {
+                InvokeDynamicInstructionNode(type, opcode, instruction.name, instruction.desc)
+            }
 
-        is LabelNode -> {
-            LabelInstructionNode(type, opcode, appendLabelIndex(this.label))
-        }
+            is JumpInsnNode -> {
+                JumpInstructionNode(type, opcode, appendLabelIndex(instruction.label.label))
+            }
 
-        is LdcInsnNode -> {
-            LdcInstructionNode(type, opcode, this.cst)
-        }
+            is LabelNode -> {
+                LabelInstructionNode(type, opcode, appendLabelIndex(instruction.label))
+            }
 
-        is LineNumberNode -> {
-            LineNumberInstructionNode(type, opcode, this.line, appendLabelIndex(this.start.label))
-        }
+            is LdcInsnNode -> {
+                LdcInstructionNode(type, opcode, instruction.cst)
+            }
 
-        is LookupSwitchInsnNode -> {
-            LookupSwitchInstructionNode(type, opcode, appendLabelIndex(this.dflt.label))
-        }
+            is LineNumberNode -> {
+                LineNumberInstructionNode(type, opcode, instruction.line, appendLabelIndex(instruction.start.label))
+            }
 
-        is MethodInsnNode -> {
-            MethodInstructionNode(type, opcode, this.owner, this.name, this.desc)
-        }
+            is LookupSwitchInsnNode -> {
+                LookupSwitchInstructionNode(type, opcode, appendLabelIndex(instruction.dflt.label))
+            }
 
-        is MultiANewArrayInsnNode -> {
-            MultiANewArrayInstructionNode(type, opcode, this.desc, this.dims)
-        }
+            is MethodInsnNode -> {
+                MethodInstructionNode(type, opcode, instruction.owner, instruction.name, instruction.desc)
+            }
 
-        is TableSwitchInsnNode -> {
-            TableSwitchInstructionNode(
-                type,
-                opcode,
-                this.min,
-                this.max,
-                appendLabelIndex(this.dflt.label),
-                this.labels.map { appendLabelIndex(it.label) })
-        }
+            is MultiANewArrayInsnNode -> {
+                MultiANewArrayInstructionNode(type, opcode, instruction.desc, instruction.dims)
+            }
 
-        is TypeInsnNode -> {
-            TypeInstructionNode(type, opcode, this.desc)
-        }
+            is TableSwitchInsnNode -> {
+                TableSwitchInstructionNode(
+                    type,
+                    opcode,
+                    instruction.min,
+                    instruction.max,
+                    appendLabelIndex(instruction.dflt.label),
+                    instruction.labels.map { appendLabelIndex(it.label) })
+            }
 
-        is VarInsnNode -> {
-            VarInstructionNode(type, opcode, this.`var`)
-        }
+            is TypeInsnNode -> {
+                TypeInstructionNode(type, opcode, instruction.desc)
+            }
 
-        else -> {
-            throw RuntimeException("Unsupported instruction")
+            is VarInsnNode -> {
+                VarInstructionNode(type, opcode, instruction.`var`)
+            }
+
+            else -> {
+                throw RuntimeException("Unsupported instruction")
+            }
         }
     }
 }

@@ -28,7 +28,7 @@ import cn.enaium.cafemod.model.Method
 import cn.enaium.cafemod.model.ZipEntry
 import cn.enaium.cafemod.model.instruction.InstructionNode
 import cn.enaium.cafemod.utility.cn
-import cn.enaium.cafemod.utility.toInstructionNode
+import cn.enaium.cafemod.utility.toInstructionNodes
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.objectweb.asm.ClassReader
@@ -204,11 +204,11 @@ fun Cafemod.getMethod(path: String, nd: String): Method? {
  * [path] zip entry path
  * [nd] name nad descriptor
  */
-fun Cafemod.getMethodInstructions(path: String, nd: String): Map<Int, InstructionNode>? {
+fun Cafemod.getMethodInstructions(path: String, nd: String): List<InstructionNode>? {
     readContent(path)?.use { content ->
         val cn = ClassReader(content).cn()
         val find = cn.methods.find { "${it.name}:${it.desc}" == nd }
-        return find?.instructions?.mapIndexed { index, node -> index to node.toInstructionNode() }?.toMap()
+        return find?.instructions?.toInstructionNodes()
     }
     return null
 }

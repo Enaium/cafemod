@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.18",
+    "@tanstack/vue-query": "^5.92.9",
     "monaco-editor": "^0.55.1",
     "monaco-editor-vue3": "^1.0.5",
     "pinia": "^3.0.4",

@@ -86,6 +86,11 @@ class Bridge(val webview: SaucerWebview) {
     private fun getMethods(path: String): List<Any> {
         return cafemod?.getMethods(path)?.array() ?: throw RuntimeException("Path is not exist")
     }
+
+    @JavascriptFunction
+    private fun getMethodInstructions(path: String, nd: String): List<Any> {
+        return cafemod?.getMethodInstructions(path, nd)?.array() ?: throw RuntimeException("Path is not exist")
+    }
 }
 
 

@@ -25,5 +25,6 @@ package cn.enaium.cafemod.model.instruction
 /**
  * @author Enaium
  */
-class FrameInstructionNode(type: Int, opcode: Int) : InstructionNode(type, opcode) {
+class FrameInstructionNode(type: Int, opcode: Int, val frame: Int, val local: List<Any>, val stack: List<Any>) :
+    InstructionNode(type, opcode) {
 }

@@ -62,20 +62,21 @@ class CafemodTest {
     @Test
     fun content() {
         assertEquals(
-            cafemod.readContent("META-INF/MANIFEST.MF").use { it?.reader()?.readText() }, "Manifest-Version: 1.0\r\n" +
-                    "Implementation-Title: ASM, a very small and fast Java bytecode manipulat\r\n" +
-                    " ion framework\r\n" +
-                    "Implementation-Version: 9.9.1\r\n" +
-                    "Bundle-DocURL: http://asm.ow2.org\r\n" +
-                    "Bundle-License: BSD-3-Clause;link=https://asm.ow2.io/LICENSE.txt\r\n" +
-                    "Bundle-ManifestVersion: 2\r\n" +
-                    "Bundle-Name: org.objectweb.asm\r\n" +
-                    "Bundle-RequiredExecutionEnvironment: J2SE-1.5\r\n" +
-                    "Bundle-SymbolicName: org.objectweb.asm\r\n" +
-                    "Bundle-Version: 9.9.1\r\n" +
-                    "Export-Package: org.objectweb.asm;version=\"9.9.1\",org.objectweb.asm.sign\r\n" +
-                    " ature;version=\"9.9.1\"\r\n" +
-                    "\r\n"
+            cafemod.readContent("META-INF/MANIFEST.MF").use { it?.reader()?.readText()?.replace("\r\n", "\n") },
+            "Manifest-Version: 1.0\n" +
+                    "Implementation-Title: ASM, a very small and fast Java bytecode manipulat\n" +
+                    " ion framework\n" +
+                    "Implementation-Version: 9.9.1\n" +
+                    "Bundle-DocURL: http://asm.ow2.org\n" +
+                    "Bundle-License: BSD-3-Clause;link=https://asm.ow2.io/LICENSE.txt\n" +
+                    "Bundle-ManifestVersion: 2\n" +
+                    "Bundle-Name: org.objectweb.asm\n" +
+                    "Bundle-RequiredExecutionEnvironment: J2SE-1.5\n" +
+                    "Bundle-SymbolicName: org.objectweb.asm\n" +
+                    "Bundle-Version: 9.9.1\n" +
+                    "Export-Package: org.objectweb.asm;version=\"9.9.1\",org.objectweb.asm.sign\n" +
+                    " ature;version=\"9.9.1\"\n" +
+                    "\n"
         )
     }
 
@@ -190,41 +191,34 @@ class CafemodTest {
                     "org/objectweb/asm/Context.class",
                     "<init>:()V"
                 )
-            ),
-            "{\r\n" +
-                    "  \"0\" : {\r\n" +
-                    "    \"type\" : 8,\r\n" +
-                    "    \"opcode\" : -1,\r\n" +
-                    "    \"labelIndex\" : 0\r\n" +
-                    "  },\r\n" +
-                    "  \"1\" : {\r\n" +
-                    "    \"type\" : 15,\r\n" +
-                    "    \"opcode\" : -1,\r\n" +
-                    "    \"line\" : 36,\r\n" +
-                    "    \"startLabelIndex\" : 0\r\n" +
-                    "  },\r\n" +
-                    "  \"2\" : {\r\n" +
-                    "    \"type\" : 2,\r\n" +
-                    "    \"opcode\" : 25,\r\n" +
-                    "    \"var\" : 0\r\n" +
-                    "  },\r\n" +
-                    "  \"3\" : {\r\n" +
-                    "    \"type\" : 5,\r\n" +
-                    "    \"opcode\" : 183,\r\n" +
-                    "    \"owner\" : \"java/lang/Object\",\r\n" +
-                    "    \"name\" : \"<init>\",\r\n" +
-                    "    \"desc\" : \"()V\"\r\n" +
-                    "  },\r\n" +
-                    "  \"4\" : {\r\n" +
-                    "    \"type\" : 0,\r\n" +
-                    "    \"opcode\" : 177\r\n" +
-                    "  },\r\n" +
-                    "  \"5\" : {\r\n" +
-                    "    \"type\" : 8,\r\n" +
-                    "    \"opcode\" : -1,\r\n" +
-                    "    \"labelIndex\" : 0\r\n" +
-                    "  }\r\n" +
-                    "}"
+            ).replace("\r\n", "\n"),
+            "[ {\n" +
+                    "  \"type\" : 8,\n" +
+                    "  \"opcode\" : -1,\n" +
+                    "  \"labelIndex\" : 0\n" +
+                    "}, {\n" +
+                    "  \"type\" : 15,\n" +
+                    "  \"opcode\" : -1,\n" +
+                    "  \"line\" : 36,\n" +
+                    "  \"startLabelIndex\" : 0\n" +
+                    "}, {\n" +
+                    "  \"type\" : 2,\n" +
+                    "  \"opcode\" : 25,\n" +
+                    "  \"var\" : 0\n" +
+                    "}, {\n" +
+                    "  \"type\" : 5,\n" +
+                    "  \"opcode\" : 183,\n" +
+                    "  \"owner\" : \"java/lang/Object\",\n" +
+                    "  \"name\" : \"<init>\",\n" +
+                    "  \"desc\" : \"()V\"\n" +
+                    "}, {\n" +
+                    "  \"type\" : 0,\n" +
+                    "  \"opcode\" : 177\n" +
+                    "}, {\n" +
+                    "  \"type\" : 8,\n" +
+                    "  \"opcode\" : -1,\n" +
+                    "  \"labelIndex\" : 0\n" +
+                    "} ]"
         )
     }
 }

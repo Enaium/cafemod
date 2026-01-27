@@ -7,7 +7,7 @@ import { NSplit } from 'naive-ui'
 const Home = () => {
   return (
     <>
-      <div class="w-full h-screen flex flex-col">
+      <div class="w-full h-full flex flex-col">
         <div class="w-full shrink-0 border-b border-gray-300">
           <ToolMenu />
         </div>

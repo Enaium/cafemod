@@ -34,4 +34,6 @@ cafemod/
 
 ## 📸 Screenshot
 
-![CafeMod Interface](https://s2.loli.net/2026/01/23/CGzlYgmwO6iAoQD.png)
+![](https://s2.loli.net/2026/01/27/iVySegrMnUWcY3w.png)
+![](https://s2.loli.net/2026/01/27/158HTq7MI6cEoZA.png)
+![](https://s2.loli.net/2026/01/27/o9SqzFvuKeiyPTx.png)

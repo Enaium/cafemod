@@ -1,6 +1,6 @@
 <script setup lang="tsx">
 import type { ZipEntry } from '@/types/bridge'
-import { onMounted, ref } from 'vue'
+import { nextTick, onMounted, ref } from 'vue'
 import { type DataTableColumns, NDataTable, NIcon, NScrollbar, useMessage } from 'naive-ui'
 import Method from '@/assets/icons/Method.svg?component'
 import Field from '@/assets/icons/Field.svg?component'
@@ -9,7 +9,9 @@ import AccessPrivate from '@/assets/icons/AccessPrivate.svg?component'
 import AccessProtected from '@/assets/icons/AccessProtected.svg?component'
 import StaticMark from '@/assets/icons/StaticMark.svg?component'
 import FinalMark from '@/assets/icons/FinalMark.svg?component'
-import { ACC_FINAL, ACC_PRIVATE, ACC_PROTECTED, ACC_PUBLIC, ACC_STATIC } from '@/types/opcodes.tsx'
+import { ACC_FINAL, ACC_PRIVATE, ACC_PROTECTED, ACC_PUBLIC, ACC_STATIC } from '@/types/opcodes'
+import CDropdown from '@/components/ContentPane/CDropdown.vue'
+import MethodInstructionModal from '@/components/MethodInstructionModal.vue'
 
 const props = defineProps<{ entry: ZipEntry }>()
 
@@ -33,19 +35,24 @@ const columns: DataTableColumns<Member> = [
         <div class="absolute">{(row.access & ACC_FINAL) !== 0 ? <FinalMark /> : <></>}</div>
       </NIcon>
     ),
+    width: 32,
   },
   {
     key: 'access',
-    render: (row: Member) =>
-      (row.access & ACC_PUBLIC) !== 0 ? (
-        <AccessPublic />
-      ) : (row.access & ACC_PRIVATE) !== 0 ? (
-        <AccessPrivate />
-      ) : (row.access & ACC_PROTECTED) !== 0 ? (
-        <AccessProtected />
-      ) : (
-        <></>
-      ),
+    render: (row: Member) => (
+      <NIcon size={16}>
+        {(row.access & ACC_PUBLIC) !== 0 ? (
+          <AccessPublic />
+        ) : (row.access & ACC_PRIVATE) !== 0 ? (
+          <AccessPrivate />
+        ) : (row.access & ACC_PROTECTED) !== 0 ? (
+          <AccessProtected />
+        ) : (
+          <></>
+        )}
+      </NIcon>
+    ),
+    width: 32,
   },
   {
     key: 'name',
@@ -81,12 +88,54 @@ onMounted(() => {
     })
 })
 
+const showDropdown = ref<boolean>(false)
+const x = ref<number>(0)
+const y = ref<number>(0)
+const showMethodInstructionModal = ref<boolean>(false)
+const currentNd = ref<string>('')
+
+const rowProps = (row: Member) => {
+  return {
+    onContextmenu: (e: MouseEvent) => {
+      e.preventDefault()
+      showDropdown.value = false
+      currentNd.value = ''
+      nextTick().then(() => {
+        currentNd.value = `${row.name}:${row.desc}`
+        showDropdown.value = true
+        x.value = e.clientX
+        y.value = e.clientY
+      })
+    },
+  }
+}
+
 const ClassMembers = () => {
   return (
     <>
-      <NScrollbar class="w-full h-full">
-        <NDataTable columns={columns} data={members.value} />
+      <NScrollbar xScrollable>
+        <NDataTable columns={columns} data={members.value} rowProps={rowProps} />
       </NScrollbar>
+      <CDropdown
+        x={x.value}
+        y={y.value}
+        show={showDropdown.value}
+        options={[
+          {
+            name: 'Show Instructions',
+            action: () => {
+              showMethodInstructionModal.value = true
+            },
+          },
+        ]}
+      />
+      {showMethodInstructionModal.value ? (
+        <MethodInstructionModal
+          v-model:show={showMethodInstructionModal.value}
+          path={props.entry.path}
+          nd={currentNd.value}
+        />
+      ) : null}
     </>
   )
 }
