@@ -1,3 +1,4 @@
 rootProject.name = "cafemod"
 include("core")
-include("ui")
+include("ui:webview")
+include("ui:flutter")
