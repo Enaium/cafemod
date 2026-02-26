@@ -103,7 +103,7 @@ const columns: DataTableColumns<InstructionNode> = [
               }
               case IINC_INSN: {
                 const node = row as IincInstructionNode
-                return `${node.var} ${node.incr}`
+                return `${node.varIndex} ${node.increment}`
               }
               case INT_INSN: {
                 const node = row as IntInstructionNode
@@ -133,7 +133,7 @@ const columns: DataTableColumns<InstructionNode> = [
                 return `${node.line} LABEL ${node.startLabelIndex}`
               }
               case LOOKUPSWITCH_INSN: {
-                return ` LABEL ${(row as LookupSwitchInstructionNode).dfltLabelIndex}`
+                return `LABEL ${(row as LookupSwitchInstructionNode).dfltLabelIndex}`
               }
               case METHOD_INSN: {
                 const node = row as MethodInstructionNode

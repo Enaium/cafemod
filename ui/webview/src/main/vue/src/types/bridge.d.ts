@@ -38,8 +38,8 @@ export interface FrameInstructionNode extends InstructionNode {
 }
 
 export interface IincInstructionNode extends InstructionNode {
-  var: number
-  incr: number
+  varIndex: number
+  increment: number
 }
 
 export interface IntInstructionNode extends InstructionNode {

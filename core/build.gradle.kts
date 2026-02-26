@@ -10,10 +10,10 @@ repositories {
 }
 
 dependencies {
-    implementation(libs.asm.tree)
-    implementation(libs.asm.analysis)
-    implementation(libs.asm.commons)
-    implementation(libs.asm.util)
+    api(libs.asm.tree)
+    api(libs.asm.analysis)
+    api(libs.asm.commons)
+    api(libs.asm.util)
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.jackson)
     testImplementation(kotlin("test"))

@@ -20,44 +20,15 @@
  * SOFTWARE.
  */
 
-package cn.enaium.cafemod.model
+package cn.enaium.cafemod.state
+
+import cn.enaium.cafemod.model.ZipEntry
+import java.util.concurrent.CopyOnWriteArrayList
+import java.util.concurrent.CopyOnWriteArraySet
 
 /**
  * @author Enaium
  */
-data class ZipEntry(
-    val name: String,
-    val path: String,
-    val type: Type,
-    val parent: ZipEntry?,
-    val children: MutableList<ZipEntry>
-) {
-    enum class Type {
-        FILE,
-        DIRECTORY,
-    }
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-
-        other as ZipEntry
-
-        if (name != other.name) return false
-        if (path != other.path) return false
-        if (type != other.type) return false
-        if (parent != other.parent) return false
-        if (children != other.children) return false
-
-        return true
-    }
-
-    override fun hashCode(): Int {
-        var result = name.hashCode()
-        result = 31 * result + path.hashCode()
-        result = 31 * result + type.hashCode()
-        result = 31 * result + (parent?.hashCode() ?: 0)
-        result = 31 * result + children.hashCode()
-        return result
-    }
+class TabState {
+    var opens: CopyOnWriteArraySet<ZipEntry> = CopyOnWriteArraySet()
 }

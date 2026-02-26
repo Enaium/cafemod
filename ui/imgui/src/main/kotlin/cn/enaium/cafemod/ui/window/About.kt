@@ -20,44 +20,37 @@
  * SOFTWARE.
  */
 
-package cn.enaium.cafemod.model
+package cn.enaium.cafemod.ui.window
+
+import imgui.ImGui
+import imgui.flag.ImGuiMouseButton
+import imgui.flag.ImGuiMouseCursor
+import imgui.flag.ImGuiWindowFlags
+import imgui.type.ImBoolean
+import java.awt.Desktop
+import java.net.URI
 
 /**
  * @author Enaium
  */
-data class ZipEntry(
-    val name: String,
-    val path: String,
-    val type: Type,
-    val parent: ZipEntry?,
-    val children: MutableList<ZipEntry>
-) {
-    enum class Type {
-        FILE,
-        DIRECTORY,
-    }
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-
-        other as ZipEntry
-
-        if (name != other.name) return false
-        if (path != other.path) return false
-        if (type != other.type) return false
-        if (parent != other.parent) return false
-        if (children != other.children) return false
-
-        return true
-    }
-
-    override fun hashCode(): Int {
-        var result = name.hashCode()
-        result = 31 * result + path.hashCode()
-        result = 31 * result + type.hashCode()
-        result = 31 * result + (parent?.hashCode() ?: 0)
-        result = 31 * result + children.hashCode()
-        return result
+fun About(open: ImBoolean) {
+    if (ImGui.begin(
+            "About",
+            open,
+            ImGuiWindowFlags.NoResize or ImGuiWindowFlags.NoCollapse or ImGuiWindowFlags.NoDocking or ImGuiWindowFlags.NoMove
+        )
+    ) {
+        ImGui.text("Cafemod")
+        ImGui.separator()
+        ImGui.text("UI: ImGui")
+        ImGui.text("GitHub: Enaium")
+        ImGui.text("Repository: https://github.com/Enaium/cafemod")
+        if (ImGui.isItemHovered() && ImGui.isMouseClicked(ImGuiMouseButton.Left)) {
+            Desktop.getDesktop().browse(URI("https://github.com/Enaium/cafemod"))
+        }
+        if (ImGui.isItemHovered()) {
+            ImGui.setMouseCursor(ImGuiMouseCursor.Hand)
+        }
+        ImGui.end()
     }
 }

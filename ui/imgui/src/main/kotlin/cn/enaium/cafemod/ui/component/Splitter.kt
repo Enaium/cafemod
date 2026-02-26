@@ -20,44 +20,39 @@
  * SOFTWARE.
  */
 
-package cn.enaium.cafemod.model
+package cn.enaium.cafemod.ui.component
+
+import cn.enaium.cafemod.utility.ImRemember.remember
+import imgui.ImGui
 
 /**
  * @author Enaium
  */
-data class ZipEntry(
-    val name: String,
-    val path: String,
-    val type: Type,
-    val parent: ZipEntry?,
-    val children: MutableList<ZipEntry>
-) {
-    enum class Type {
-        FILE,
-        DIRECTORY,
+fun Splitter(left: () -> Unit, right: () -> Unit, leftFlags: Int = 0, rightFlags: Int = 0) {
+
+    var leftWidth by remember { 300f }
+
+    val splitterWidth = 10f
+    val minSize = 50f
+
+    if (ImGui.beginChild("left", leftWidth, 0f, true, leftFlags)) {
+        left()
+        ImGui.endChild()
     }
 
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
+    ImGui.sameLine()
 
-        other as ZipEntry
+    ImGui.button(" ", splitterWidth, -1f)
 
-        if (name != other.name) return false
-        if (path != other.path) return false
-        if (type != other.type) return false
-        if (parent != other.parent) return false
-        if (children != other.children) return false
-
-        return true
+    if (ImGui.isItemActive()) {
+        leftWidth += ImGui.getIO().mouseDelta.x
+        if (leftWidth < minSize) leftWidth = minSize
     }
 
-    override fun hashCode(): Int {
-        var result = name.hashCode()
-        result = 31 * result + path.hashCode()
-        result = 31 * result + type.hashCode()
-        result = 31 * result + (parent?.hashCode() ?: 0)
-        result = 31 * result + children.hashCode()
-        return result
+    ImGui.sameLine()
+
+    if (ImGui.beginChild("right", 0f, 0f, true, rightFlags)) {
+        right()
+        ImGui.endChild()
     }
 }

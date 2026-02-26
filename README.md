@@ -29,6 +29,16 @@ A Java bytecode viewer.
 - **[Fluent UI](https://github.com/bdlukaa/fluent_ui)** - Fluent design system for Flutter
 - **[flutter_syntax_view](https://pub.dev/packages/flutter_syntax_view)** - Syntax highlighting widget for Flutter
 
+### ImGui
+
+#### Backend
+
+- **[Kotlin](https://kotlinlang.org/)** - Modern language for the JVM
+
+#### Frontend
+
+- **[ImGui](https://github.com/SpaiR/imgui-java)** - Immediate mode GUI library for Java
+
 
 ## 📸 Screenshot
 
@@ -41,3 +51,7 @@ A Java bytecode viewer.
 ### Flutter
 
 ![](https://s2.loli.net/2026/02/04/4cu3JK7jfEHioSm.png)
+
+### ImGui
+
+![](https://picui.ogmua.cn/s1/2026/02/26/699ff112f0ae8.webp)

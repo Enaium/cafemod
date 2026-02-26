@@ -1,10 +1,13 @@
 [versions]
-koltin = "2.3.0"
+koltin = "2.3.10"
 shadow = "9.3.0+"
 asm = "9.9.1"
 coroutines = "1.10.2"
 jackson = "2.20.2"
 saucer = "8739a56"
+imgui = "1.90.0"
+koin = "4.1.1"
+filekit = "0.13.0"
 
 [libraries]
 asm-tree = { module = "org.ow2.asm:asm-tree", version.ref = "asm" }
@@ -15,6 +18,10 @@ kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-c
 jackson = { module = "com.fasterxml.jackson.module:jackson-module-kotlin", version.ref = "jackson" }
 saucer-api = { module = "com.github.saucer.saucer4j:api", version.ref = "saucer" }
 saucer-all = { module = "com.github.saucer.saucer4j:_all", version.ref = "saucer" }
+imgui = { module = "io.github.spair:imgui-java-app", version.ref = "imgui" }
+koin = { module = "io.insert-koin:koin-core", version.ref = "koin" }
+filekit-core = { module = "io.github.vinceglb:filekit-core", version.ref = "filekit" }
+filekit-dialogs = { module = "io.github.vinceglb:filekit-dialogs", version.ref = "filekit" }
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "koltin" }
